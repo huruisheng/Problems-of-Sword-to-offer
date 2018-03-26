@@ -1,0 +1,23 @@
+/*题目：如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。
+如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。*/
+//思路：优先队列实现，用迭代器找中位数，不可实现；注意！优先队列迭代器并不保证以特定顺序遍历
+//参考思路：双优先队列实现，其中large数列以升序储存较大一半数，small以降序储存较小一般数（通过加-解决），保持large的size()等于small或者比其大1
+//方便直接返回结果
+//总结：单个集合类解决不了问题时，考虑多个集合类协同工作；注意类型和包装类的转化机制
+import java.util.*;
+public class Solution {
+    private PriorityQueue<Double> large=new PriorityQueue<Double>();
+    private PriorityQueue<Double> small=new PriorityQueue<Double>();
+    public void Insert(Integer num) {
+        large.offer((double)num);
+        small.offer(-large.poll());
+        if(large.size()<small.size())
+            large.offer(-small.poll());
+    }
+
+    public Double GetMedian() {
+        if(large.size()>small.size())
+            return large.peek();
+        else return (large.peek()-small.peek())/2;
+    }
+}
