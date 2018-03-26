@@ -1,0 +1,51 @@
+/*题目：请实现两个函数，分别用来序列化和反序列化二叉树*/
+//思路：LeetCode同款，序列化时：前序遍历二叉树，若节点不为空则添加当前节点val+分隔符，若为空则添加N+分隔符，stb递归遍历解决；
+//反序列化时：根据分隔符划分节点值，得出的字符串数组全部入队列，辅助函数递归，当前peek()不为空，则new一个当前节点，为空则返回null；再递归生成
+//左子树、右子树
+//总结：处理树结构时，递归调用比循环遍历方便且高效得多
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+import java.util.*;
+public class Solution {
+    static final String spliter="/";
+    static final String NULL="N";
+    public String Serialize(TreeNode root){
+        StringBuilder stb=new StringBuilder();
+        helpser(root,stb);
+        return stb.toString();
+    }
+    
+    public void helpser(TreeNode root,StringBuilder stb){
+        if(root==null)    stb.append(NULL+spliter);
+        else{
+            stb.append(root.val+spliter);
+            helpser(root.left,stb);
+            helpser(root.right,stb);
+        }
+    }
+    public TreeNode Deserialize(String str){
+        Queue<String> que=new LinkedList<String>();
+        que.addAll(Arrays.asList(str.split(spliter)));
+        return helpde(que);
+    }
+    public TreeNode helpde(Queue<String> que){
+        String cur=que.poll();
+        if(cur.equals(NULL))    return null;
+        TreeNode root=new TreeNode(Integer.parseInt(cur));
+        root.left=helpde(que);
+        root.right=helpde(que);
+        return root;
+        
+    }
+}
