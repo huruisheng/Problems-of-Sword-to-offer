@@ -1,0 +1,34 @@
+/*题目：从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行*/
+//思路：借助队列层级遍历二叉树，设变量size、count分别记录当前层大小和当前层遍历个数，每次进循环时设cur=poll()，count++,temp.add,判断左右子树是否为空
+//进队列，当size==count时，更新变量值
+//参考思路：带高度参数的模板递归，核心函数：当前节点为空，返回；当res大小 小于等于高度时res添加新list，新list加当前节点值，再递归调用左右子树，高度加1
+import java.util.ArrayList;
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    ArrayList<ArrayList<Integer> > Print(TreeNode root) {
+        ArrayList<ArrayList<Integer>> res=new ArrayList<ArrayList<Integer>>();
+        help(root,res,0);
+        return res;
+    }
+    public void help(TreeNode root,ArrayList<ArrayList<Integer>> res,int height){
+        if(root==null) return;
+        if(res.size()<=height)
+            res.add(new ArrayList<Integer>());
+        res.get(height).add(root.val);
+        help(root.left,res,height+1);
+        help(root.right,res,height+1);
+    }
+    
+}
