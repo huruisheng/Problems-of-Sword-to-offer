@@ -1,0 +1,26 @@
+/*题目：给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，
+那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}； 针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： 
+{[2,3,4],2,6,2,5,1}， {2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}， {2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。*/
+//思路：爆破的话O(n*m),TreeMap O(n logm)，且若有重复键值不能解决
+//参考思路：双端队列Deque，O(n)；双端队列的典型应用，遍历数组，双端数列储存数组下标，当deque不为空且peek()不在当前比较范围时移除，当deque不为空且
+//peekLast()小于当前比较值时移除（因为没机会当最大）,当前i入队列，此时peek()储存最大下标，当扫描个数大于等于k时返回之
+//总结：并不需要范围中的两个数两两比较，只需要维持窗口中的当前最大值及可能最大值即可
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size){
+        ArrayList<Integer> res = new ArrayList<>();
+        if(size == 0) return res;
+        Deque<Integer> q = new ArrayDeque<>();
+        for(int i = 0; i < num.length; i++){
+            while((!q.isEmpty()) && q.peek() < i-size+1)
+                q.poll();
+         
+            while((!q.isEmpty()) && num[q.peekLast()] < num[i])
+                q.pollLast();
+            q.offer(i);  
+            if(i>=size-1)
+                res.add(num[q.peek()]);
+        }
+        return res;
+    }
+}
