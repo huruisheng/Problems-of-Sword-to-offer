@@ -1,6 +1,7 @@
 [牛客网](https://www.nowcoder.com/practice/6e5207314b5241fb83f2329e89fdecc8?tpId=13&tqId=11219&tPage=4&rp=4&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 public class Solution {
         //思路：典型回溯递归调用，通用模板为 主函数+核心递归函数
+        //参考思路：思路相同，代码简介，范围判断更高效
         /*总结：思路大致相同，参考代码更为简洁，核心函数中，将当前坐标是否在范围内判断条件，若不满足直接返回0，提高了代码效率；另范围判断方法中，
         原思路是将数字转换为字符串，再由字符串逐位转换成数字相加而来，而参考是逐位取取余数相加，效率较高*/
         public int movingCount(int threshold, int rows, int cols){
