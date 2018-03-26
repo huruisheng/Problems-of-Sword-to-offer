@@ -1,0 +1,49 @@
+[牛客网](https://www.nowcoder.com/practice/6e5207314b5241fb83f2329e89fdecc8?tpId=13&tqId=11219&tPage=4&rp=4&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+public class Solution {
+        //思路：典型回溯递归调用，通用模板为 主函数+核心递归函数
+        /*总结：思路大致相同，参考代码更为简洁，核心函数中，将当前坐标是否在范围内判断条件，若不满足直接返回0，提高了代码效率；另范围判断方法中，
+        原思路是将数字转换为字符串，再由字符串逐位转换成数字相加而来，而参考是逐位取取余数相加，效率较高*/
+        public int movingCount(int threshold, int rows, int cols){
+//         if(threshold<=0 || rows<=0 || cols<=0)    return 0;
+//         boolean[] visit=new boolean[rows*cols];
+//         return help(0,0,rows,cols,threshold,visit);
+//     }
+//     public int help(int i,int j,int m,int n,int max,boolean[] visit){
+//         int index=i*n+j;
+//         if(i<0 || i>=m || j<0 || j>=n || visit[index] || !isin(i,j,max))    return 0;
+//         visit[index]=true;
+//         int[][] dir=new int[][]{{1,0},{-1,0},{0,1},{0,-1}};  //多余代码，并不能遍历递归调用，而是要一次性全部调用
+//         return 1+help(i+1,j,m,n,max,visit)+help(i-1,j,m,n,max,visit)+help(i,j+1,m,n,max,visit)+help(i,j-1,m,n,max,visit);
+
+//     }
+//     public boolean isin(int i,int j,int max){
+//         int count=0;
+//         String a=String.valueOf(i)+String.valueOf(j);
+//         for(int k=0;k<a.length();k++)
+//             count+=Integer.parseInt(a.charAt(k)+"");
+//         if(count<=max)
+//             return true;
+//         return false;
+//     
+        int flag[][] = new int[rows][cols]; //记录是否已经走过
+        return helper(0, 0, rows, cols, flag, threshold);
+    }
+ 
+    private int helper(int i, int j, int rows, int cols, int[][] flag, int threshold) {
+        if (i < 0 || i >= rows || j < 0 || j >= cols || numSum(i) + numSum(j)  > threshold || flag[i][j] == 1) return 0;    
+        flag[i][j] = 1;
+        return helper(i - 1, j, rows, cols, flag, threshold)
+            + helper(i + 1, j, rows, cols, flag, threshold)
+            + helper(i, j - 1, rows, cols, flag, threshold)
+            + helper(i, j + 1, rows, cols, flag, threshold)
+            + 1;
+    }
+ 
+    private int numSum(int i) {
+        int sum = 0;
+        do{
+            sum += i%10;
+        }while((i = i/10) > 0);
+        return sum;
+    }
+}
