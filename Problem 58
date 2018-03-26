@@ -1,0 +1,28 @@
+/*题目：请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。*/
+//思路:递归调用判断即可，当前节点为空返回true否则返回核心函数：若两节点都为空返回true，若两节点有一个不为空返回false，否则返回 判断两节点val是否相等，
+//以及，注意！判断root1.left，root2.right， root1.right，root2.left如此
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    boolean isSymmetrical(TreeNode root){
+        if(root==null) return true;
+        return help(root.left,root.right);
+    }
+    
+    boolean help(TreeNode root1,TreeNode root2){
+        if(root1==null && root2==null)    return true;
+        if(root1==null || root2==null)    return false;
+        return root1.val==root2.val && help(root1.left,root2.right) && help(root1.right,root2.left);
+    }
+}
