@@ -1,0 +1,35 @@
+/*给定一颗二叉搜索树，请找出其中的第k大的结点。例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。*/
+//思路：直接解的话，递归辅助函数，中序遍历二叉搜索树返回倒数第k个节点
+//参考思路：不需要辅助函数，直接递归调用，成员变量index计数，当前节点不为空，在其左子树找第k大节点，找到则返回；不够k个的话，index++算上当前节点，再在
+//右子树中找第k大节点，不为空则返回，最后都不够k大的话返回null
+//总结：除了第一印象解，李青思路找最优解
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+import java.util.*;
+public class Solution {
+    int index=0;
+    TreeNode KthNode(TreeNode root, int k){
+        if(root!=null){
+            TreeNode node=KthNode(root.left,k);
+            if(node!=null)
+                return node;
+            index++;
+            if(k==index)
+                return root;
+            node=KthNode(root.right,k);
+            if(node!=null)
+                return node;
+        }
+        return null;
+    }
+}
